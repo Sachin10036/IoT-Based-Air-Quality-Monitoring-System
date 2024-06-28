@@ -1,60 +1,79 @@
-# AirGuard 360: IoT-Based Air Quality Monitoring System
+# Air Quality Monitoring Using Blynk, ThingSpeak, and ESP8266
 
-Table of Contents
+This project monitors air quality using an ESP8266 microcontroller. It measures temperature, humidity, and gas concentration, displaying the data on an LCD screen and sending it to ThingSpeak for logging and Blynk for real-time monitoring and alerts.
 
-Introduction <br />
-Features <br />
-Components <br />
-Usage <br />
-System Architecture <br />
-Code Explanation <br />
-Data Visualization <br />
-Future Enhancement <br />
+## Project Overview
 
+This project aims to provide real-time monitoring of air quality using a combination of sensors and cloud services. The ESP8266 microcontroller collects data from the DHT11 and MQ135 sensors, displays the information on an LCD screen, and uploads the data to ThingSpeak. Additionally, Blynk is used to monitor the data in real-time and receive alerts when the air quality exceeds a certain threshold.
 
-Introduction: <br />
-AirGuard 360 is an innovative IoT-based air quality monitoring system designed to provide real-time monitoring of environmental conditions, including temperature, humidity, and gas concentrations. The system uses sensors connected to a NodeMCU ESP8266 microcontroller to gather data and upload it to cloud platforms like Blynk and ThingSpeak for visualization and analysis.
+## Setting Up ThingSpeak
 
-Features: <br />
-Real-time Monitoring: Continuously tracks temperature, humidity, and gas concentrations.<br />
-Cloud Integration: Uploads data to Blynk and ThingSpeak for remote monitoring and analysis.<br />
-Alerts: Provides visual and auditory alerts for poor air quality.<br />
-User-friendly Interface: Accessible via mobile app and web dashboard.<br />
-Data Logging: Supports historical data analysis and trend detection.<br />
+1. *Create an Account*: Sign up for a ThingSpeak account at [ThingSpeak](https://thingspeak.com).
 
-Components: <br />
-NodeMCU ESP8266: Microcontroller with WiFi capability.<br />
-DHT11: Sensor for temperature and humidity.<br />
-MQ135: Sensor for gas concentrations.<br />
-LCD: Displays real-time data.<br />
-Buzzer and LED: Alerts for poor air quality.<br />
-Blynk and ThingSpeak: Cloud platforms for data visualization.<br />
+2. *Create a Channel*: After logging in, create a new channel to store your air quality data.
+    - Go to "Channels" > "My Channels" > "New Channel".
+    - Enter a name and description for your channel.
+    - Add three fields: Temperature, Humidity, and Air Quality.
+    - Save the channel.
 
-Usage: <br />
-Power On: Connect the sensors and power up the NodeMCU.<br />
-Monitor: Use the Blynk app or web dashboard to monitor real-time data.<br />
-Alerts: The system will trigger LED and buzzer alerts if air quality exceeds the threshold.<br />
-Analyze Data: View and analyze data trends on ThingSpeak.<br />
+3. *Get the Write API Key*: Navigate to the API Keys tab of your channel and copy the "Write API Key".
 
-System Architecture: <br />
-Sensors: DHT11 and MQ135 gather environmental data.<br />
-NodeMCU ESP8266: Collects sensor data and uploads it to the cloud.<br />
-Cloud Platforms: Blynk and ThingSpeak store and visualize data.<br />
-Alerts: LED and buzzer notify users of poor air quality.<br />
+## Setting Up Blynk
 
-Code Explanation: <br />
-The project code is divided into several sections: <br />
+1. *Create an Account*: Download the Blynk app on your smartphone and create an account.
 
-WiFi and Cloud Setup: Establishes connection to WiFi and initializes Blynk and ThingSpeak.<br />
-Sensor Reading: Collects data from DHT11 and MQ135 sensors.<br />
-Data Upload: Sends data to Blynk and ThingSpeak for visualization.<br />
-Alerts: Triggers LED and buzzer if air quality is poor.<br />
+2. *Create a New Project*: 
+    - In the Blynk app, create a new project.
+    - Select the device as ESP8266 and connection type as WiFi.
+    - Copy the Auth Token sent to your email.
 
-Data Visualization: <br />
-Blynk Platform: Provides real-time dashboard via mobile app and web interface.<br />
-ThingSpeak: Offers tools for advanced data visualization and historical data analysis.<br />
+3. *Add Widgets*:
+    - Add a Value Display widget for Temperature (Virtual Pin V0).
+    - Add a Value Display widget for Humidity (Virtual Pin V1).
+    - Add a Value Display widget for Air Quality (Virtual Pin V2).
+    - Optionally, add a Notification widget for alerts.
 
-Future Enhancements: <br />
-Expand Sensor Types: Integrate additional sensors for specific pollutants.<br />
-Increase Coverage: Expand monitoring to cover larger areas.<br />
-Enhance Alerts: Implement advanced notification systems (SMS, email).<br />
+## Required Libraries
+
+Install the following libraries through the Arduino Library Manager or download them from GitHub:
+
+- *Blynk*: For connecting the ESP8266 to the Blynk app.
+- *DHT sensor library*: For reading data from the DHT11 sensor.
+- *LiquidCrystal_I2C*: For controlling the LCD screen.
+- *MQ135*: For reading data from the MQ135 gas sensor.
+- *ESP8266WiFi*: For connecting the ESP8266 to WiFi.
+
+## Code Explanation
+
+Here's a brief overview of the code:
+
+1. *Library Inclusions and Definitions*: The necessary libraries are included, and constants are defined for WiFi credentials, ThingSpeak API key, and Blynk authentication token.
+
+2. *WiFi Setup*: The ESP8266 connects to the specified WiFi network.
+
+3. *Sensor Initialization*: The DHT11 and MQ135 sensors are initialized.
+
+4. *Data Reading and Display*:
+    - The sendSensor function reads data from the sensors and sends it to ThingSpeak and Blynk.
+    - The LCD displays the current temperature, humidity, and air quality.
+
+5. *Alerts*:
+    - If the air quality exceeds a specified threshold, an LED and buzzer are activated.
+    - A Blynk notification is sent to alert the user.
+
+## How to Run the Project
+    
+1. *Open the Arduino IDE* and load the air_quality_monitoring.ino file.
+
+2. *Update Credentials*:
+    - Replace the placeholders with your Blynk Auth Token, ThingSpeak Write API Key, and WiFi credentials in the code.
+
+3. *Upload the Code* to your ESP8266 board.
+
+4. *Monitor the Output*:
+    - Open the Serial Monitor in the Arduino IDE to check the connection status and data logs.
+    - Use the Blynk app to monitor real-time data and receive alerts.
+
+## Conclusion
+
+This project provides a comprehensive solution for monitoring air quality in real-time using an ESP8266, with data visualization and alerts through ThingSpeak and Blynk. Follow the steps outlined above to set up and run the project successfully.
